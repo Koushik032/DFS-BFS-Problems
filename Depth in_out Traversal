@@ -1,0 +1,89 @@
+///   ***   ---   |||         In the name of VOGOBAN        |||   ---   ***   ///
+
+#include<bits/stdc++.h>
+using namespace std;
+
+typedef long long ll;
+typedef vector<int> vi;
+typedef vector<ll> vl;
+typedef pair<int,int> pii;
+
+#define endl '\n'
+#define PB push_back
+#define F first
+#define S second
+#define all(a) (a).begin(),(a).end()
+#define rall(a) (a).rbegin(),(a).rend()
+
+#define MOD 1000000007
+
+#define mem(a,b) memset(a, b, sizeof(a) )
+#define sqr(a) ((a) * (a))
+
+#define optimize() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+
+
+ll gcd ( ll a, ll b )
+{ 
+    return __gcd ( a, b );
+}
+ll lcm ( ll a, ll b )
+{
+    return a * ( b / gcd ( a, b ) );
+}
+
+const int N = 1e5 + 123;
+vector<int > graph[N];
+int vis[N];
+int in_time[N];
+int out_time[N];
+int timer = 1;
+
+void DFS( int vertex )
+{
+    vis[vertex] = true;
+    in_time[vertex] = timer;
+    timer++;
+    for ( auto child: graph[vertex] )
+    {
+        //cout << "vertex " << vertex << " Child " << child << "Timer " << timer << endl;
+        if ( vis[child] )continue;
+        DFS(child);
+    }
+    out_time[vertex] = timer;
+    timer++;
+}
+
+int main()
+{
+    optimize();
+
+        int n;
+        cin >> n;
+
+        for ( int i = 0; i < n ; i++ )
+        {
+            int vertex;
+            cin >> vertex;
+            int connect;
+            cin >> connect;
+            for ( int j = 0; j < connect; j++ )
+            {
+                int x;
+                cin >> x;
+                graph[vertex].PB(x);
+            }
+        }
+        for ( int i = 1; i <= n; i++ )
+        {
+            if ( vis[i] )continue;
+            DFS(i);
+        }
+
+        for ( int i = 1; i <= n; i++ )
+        {
+            cout << i << " " << in_time[i] << " " << out_time[i] << endl;
+        }
+
+    return 0;
+}
