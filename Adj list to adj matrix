@@ -1,0 +1,90 @@
+///   ***   ---   |||         In the name of VOGOBAN        |||   ---   ***   ///
+
+#include<bits/stdc++.h>
+using namespace std;
+
+typedef long long ll;
+typedef vector<int> vi;
+typedef vector<ll> vl;
+typedef pair<int,int> pii;
+
+#define endl '\n'
+#define PB push_back
+#define F first
+#define S second
+#define all(a) (a).begin(),(a).end()
+#define rall(a) (a).rbegin(),(a).rend()
+
+#define MOD 1000000007
+
+#define mem(a,b) memset(a, b, sizeof(a) )
+#define sqr(a) ((a) * (a))
+
+#define optimize() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+
+
+ll gcd ( ll a, ll b )
+{ 
+    return __gcd ( a, b );
+}
+ll lcm ( ll a, ll b )
+{
+    return a * ( b / gcd ( a, b ) );
+}
+
+const int N = 1e2 + 123;
+vector<int > graph[N];
+bool vis[N];
+vector<int> ans;
+int adj[N][N];
+
+// void DFS( int vertex )
+// {
+//     vis[vertex] = true;
+//     for ( auto child: graph[vertex] )
+//     {
+//         if ( vis[child] )continue;
+//         DFS(child);
+//     }
+// }
+
+int main()
+{
+    optimize();
+
+        int n;
+        cin >> n;
+        for ( int i = 0; i < n; i++ )
+        {
+            int vertex, edges;
+            cin >> vertex >> edges;
+
+            for ( int j = 0; j < edges; j++ )
+            {
+                int x; cin >> x;
+                graph[vertex].PB(x);
+            }
+        }
+        
+        for ( int i = 1; i <= n; i++ )
+        {
+            //cout << i << " : ";
+            for ( int j = 0; j < graph[i].size(); j++ )
+            {
+                adj[i][graph[i][j]] = 1;
+            }
+            //cout << endl;
+        }
+
+        for ( int i = 1; i <= n; i++ )
+        {
+            for ( int j = 1; j <= n; j++ )
+            {
+                cout << adj[i][j];
+                if ( j != n )cout << " ";
+            }
+            cout << endl;
+        }
+
+    return 0;
+}
