@@ -1,0 +1,99 @@
+///   ***   ---   |||         In the name of VOGOBAN        |||   ---   ***   ///
+
+#include<bits/stdc++.h>
+using namespace std;
+
+typedef long long ll;
+typedef vector<int> vi;
+typedef vector<ll> vl;
+typedef pair<int,int> pii;
+
+#define endl '\n'
+#define PB push_back
+#define F first
+#define S second
+#define all(a) (a).begin(),(a).end()
+#define rall(a) (a).rbegin(),(a).rend()
+
+#define MOD 1000000007
+
+#define mem(a,b) memset(a, b, sizeof(a) )
+#define sqr(a) ((a) * (a))
+
+#define optimize() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+
+
+ll gcd ( ll a, ll b ){     return __gcd ( a, b );}
+ll lcm ( ll a, ll b ){    return a * ( b / gcd ( a, b ) );}
+
+const int mx = 1e5 + 10;
+vector< int > graph[mx];
+bool vis[mx];
+int p[mx];
+
+void DFS( int vertex , int par = -1 )
+{
+    p[vertex] = par;
+    for ( auto child : graph[vertex] )
+    {
+        if ( par == child )continue;
+            DFS( child, vertex );
+    }
+}
+
+vector<int > path( int v )
+{
+    vector<int > ans;
+    while ( v != -1 )
+    {
+        ans.PB(v);
+        v = p[v];
+    }
+    reverse(all(ans));
+    return ans;
+}
+
+int main()
+{
+    optimize();
+
+        int n;
+        cin >> n;
+
+        for ( int i = 0; i < n-1; i++ )
+        {
+            int e1, e2;
+            cin >> e1 >> e2;
+            graph[e1].PB(e2);
+            graph[e2].PB(e1);
+        }
+        DFS(1);
+
+        int x, y;
+        cin >> x >> y;
+
+        vector<int>path_x = path(x);
+        vector<int > path_y = path(y);
+
+        int len = -1;
+
+        int sz = min(path_y.size(), path_x.size());
+
+        for ( int i = 0; i < sz; i++ )
+        {
+            if ( path_x[i] == path_y[i] )
+            {
+                len = path_y[i];
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        cout << len << endl;
+        
+    return 0;
+}
+
+///Time Complexity = O(V+E) = O(N);;
