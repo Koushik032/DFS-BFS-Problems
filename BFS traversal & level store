@@ -1,0 +1,99 @@
+///   ***   ---   |||         In the name of VOGOBAN        |||   ---   ***   ///
+
+#include<bits/stdc++.h>
+using namespace std;
+
+typedef long long ll;
+typedef vector<int> vi;
+typedef vector<ll> vl;
+typedef pair<int,int> pii;
+
+#define endl '\n'
+#define PB push_back
+#define F first
+#define S second
+#define all(a) (a).begin(),(a).end()
+#define rall(a) (a).rbegin(),(a).rend()
+
+#define MOD 1000000007
+
+#define mem(a,b) memset(a, b, sizeof(a) )
+#define sqr(a) ((a) * (a))
+
+#define optimize() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+
+
+ll gcd ( ll a, ll b ){     return __gcd ( a, b );}
+ll lcm ( ll a, ll b ){    return a * ( b / gcd ( a, b ) );}
+
+
+int const N = 1e5 + 123;
+vector< int > graph[N];
+bool vis[N];
+int level[N];
+
+void BFS( int vertex )
+{
+    queue< int > q;
+    q.push(vertex);
+    vis[vertex] = true;
+
+    while ( !q.empty() )
+    {
+        int cur_v = q.front();
+        q.pop();
+        //cout << cur_v << " ";
+        for ( auto child : graph[cur_v] )
+        {
+            if ( !vis[child] )
+            {
+                q.push(child);
+                vis[child] = true;
+                level[child] = level[cur_v] + 6;
+            }
+        }
+    }
+}
+
+int main() {
+    
+
+    int t;
+    cin >> t;
+
+    while ( t-- ){
+    int node, edge;
+    cin >> node >> edge;
+
+    for ( int i = 0; i < edge; i++ )
+    {
+        int v1, v2;
+        cin >> v1 >> v2;
+
+        graph[v1].PB(v2);
+        graph[v2].PB(v1);
+    }
+    int start_node;
+    cin >> start_node;
+
+    BFS(start_node);
+
+    for ( int i = 1; i <= node; i++ )
+    {
+        if ( i == start_node )continue;
+        if ( level[i] == 0 )
+        {
+            cout << -1 << " ";
+        }
+        else
+        cout << level[i] << " ";
+    }
+    cout << endl;
+
+    memset( graph, 0, sizeof(graph));
+    memset(level, 0, sizeof(level));
+    memset( vis, 0, sizeof(vis));
+    }
+
+    return 0;
+}
