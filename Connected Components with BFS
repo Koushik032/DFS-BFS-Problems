@@ -1,0 +1,89 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+typedef long long ll;
+typedef vector<int> vi;
+typedef vector<ll> vl;
+typedef pair<long long, long long> pii;
+
+#define endl '\n'
+#define PB push_back
+#define eb emplace_back
+#define F first
+#define S second
+#define all(a) (a).begin(), (a).end()
+#define rall(a) (a).rbegin(), (a).rend()
+
+#define MOD 100003
+
+#define mem(a, b) memset(a, b, sizeof(a))
+#define sqr(a) ((a) * (a))
+
+#define optimize() ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+
+ll gcd(ll a, ll b) { return __gcd(a, b); }
+ll lcm(ll a, ll b) { return a * (b / gcd(a, b)); }
+
+const int N = 1e5 + 123;
+vector<int > adj[N];
+int vis[N];
+
+void BFS( int ver ){
+    queue<int> que;
+    que.push(ver);
+    vis[ver] = 1;
+
+    while( !que.empty() ){
+        int cur_front = que.front();
+        que.pop();
+
+        for( auto u : adj[cur_front] ){
+            if( vis[u] )continue;
+            que.push(u);
+            vis[u] = 1;
+        }
+    }
+}
+
+void solve(int cs) {
+    int n, m;
+    cin >> n >> m;
+
+    for( int i = 0; i < m; i++ ){
+        int edge1, edge2;
+        cin >> edge1 >> edge2;
+
+        adj[edge1].PB(edge2);
+        adj[edge2].PB(edge1);
+    }
+
+    // for( int i = 0; i <= n; i++ ){
+    //     cout << i << " ";
+    //     for( auto u: adj[i] ){
+    //         cout << u << " ";
+    //     }
+    //     cout << endl;
+    // }
+    
+    int connected = 0;
+    for( int i = 1; i <= n; i++ ){
+        if( !vis[i] ){
+            BFS(i);
+            connected++;
+        }
+    }
+
+    cout << connected << endl;
+
+}
+
+int main() {
+    optimize();
+    int t = 1, cs = 1;
+    //cin >> t;
+
+    while (t--) {
+        solve(cs++);
+    }
+    return 0;
+}
