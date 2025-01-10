@@ -1,0 +1,92 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+typedef long long ll;
+typedef vector< int > vi;
+typedef vector<ll> vl;
+typedef pair<long long,long long> pii;
+
+#define endl '\n'
+#define PB push_back
+#define eb emplace_back
+#define F first
+#define S second
+#define all(a) (a).begin(),(a).end()
+#define rall(a) (a).rbegin(),(a).rend()
+
+#define MOD 100003
+
+#define mem(a,b) memset(a, b, sizeof(a) )
+#define sqr(a) ((a) * (a))
+
+#define optimize() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+
+ll gcd ( ll a, ll b ){    return __gcd ( a, b );}
+ll lcm ( ll a, ll b ){    return a * ( b / gcd ( a, b ) );}
+
+const int N = 1e5 + 123;
+vector<int>graph[N];
+vector<bool>vis(N);
+
+bool BFS( int vertex, int parent ){
+    vis[vertex] = true;
+    queue<pair<int,int>> q;
+    q.push({vertex, parent});
+    bool isLoop = false;
+
+    while( !q.empty() ){
+        int val = q.front().F;
+        int par = q.front().S;
+        q.pop();
+
+        for( auto child : graph[val] ){
+            if( vis[child] && child == par ){
+                continue;
+            }else if( vis[child] ){
+                return true;
+            }
+            isLoop |= BFS(child, val );
+        }
+    }
+    return isLoop;
+}
+
+void solve(int cs) {
+    int n, m;
+    cin >> n >> m;
+
+    for( int i = 0; i < m; i++ ){
+        int a, b;
+        cin >> a >> b;
+        graph[a].PB(b);
+        graph[b].PB(a);
+    }
+
+    bool isLoop  = BFS(1, 0);
+
+    if( isLoop )cout << "NO" << endl;
+    else
+    {
+        for( int i = 1; i <= n; i++ ){
+            if( !vis[i] ){
+                isLoop = true;
+                break;
+            }
+        }
+        if( isLoop )
+            cout << "NO" << endl;
+        else
+            cout << "YES" << endl;
+    }
+}
+int main() {
+
+    int t = 1, cs = 1;
+    //cin >> t;
+
+    while(t--)
+    {
+        solve(cs++);
+    }
+    return 0;
+}
