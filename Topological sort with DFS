@@ -1,0 +1,80 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+typedef long long ll;
+typedef vector< int > vi;
+typedef vector<ll> vl;
+typedef pair<long long,long long> pii;
+
+#define endl '\n'
+#define PB push_back
+#define eb emplace_back
+#define F first
+#define S second
+#define all(a) (a).begin(),(a).end()
+#define rall(a) (a).rbegin(),(a).rend()
+
+#define MOD 100003
+
+#define mem(a,b) memset(a, b, sizeof(a) )
+#define sqr(a) ((a) * (a))
+
+#define optimize() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+
+ll gcd ( ll a, ll b ){    return __gcd ( a, b );}
+ll lcm ( ll a, ll b ){    return a * ( b / gcd ( a, b ) );}
+
+void DFS( int vertex, vector<int> graph[], vector<int> &vis, stack<int> &st )
+{
+    vis[vertex] = true;
+
+    for ( auto child: graph[vertex] )
+    {
+        if ( !vis[child] )
+        {
+            DFS( child, graph, vis, st );
+        }
+    }
+    st.push(vertex);
+}
+
+void solve(int cs) {
+    vector<vector< int >> graph = {{1}, {2}, {3}, {4, 5}, {6}, {6}, {7}, {}, {1, 9}, {10}, 
+        {8},{9}};
+
+    int n = graph.size();
+    stack< int > st;
+    vector< int > graph1[n];
+    vector< int > vis(n, 0);
+
+    for( int i = 0; i < n; i++ ){
+        for( int j = 0; j < graph[i].size(); j++ ){
+                graph1[i].push_back(graph[i][j]);
+        }
+    }
+
+    for( int i = 0; i < n; i++ ){
+        if( !vis[i] )
+        {
+            DFS( i, graph1, vis, st );
+        }
+    }
+
+    vector<int> ans;
+    while( !st.empty() ){
+        ans.push_back(st.top());
+        st.pop();
+    }
+    
+}
+int main() {
+
+    int t = 1, cs = 1;
+    //cin >> t;
+
+    while(t--)
+    {
+        solve(cs++);
+    }
+    return 0;
+}
