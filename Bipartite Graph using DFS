@@ -1,0 +1,94 @@
+#include<bits/stdc++.h>
+using namespace std;
+ 
+typedef long long ll;
+typedef vector< int > vi;
+typedef vector<ll> vl;
+typedef pair<long long,long long> pii;
+ 
+#define endl '\n'
+#define PB push_back
+#define eb emplace_back
+#define F first
+#define S second
+#define all(a) (a).begin(),(a).end()
+#define rall(a) (a).rbegin(),(a).rend()
+ 
+#define MOD 100003
+ 
+#define mem(a,b) memset(a, b, sizeof(a) )
+#define sqr(a) ((a) * (a))
+ 
+#define optimize() ios_base::sync_with_stdio(0);cin.tie(0);cout.tie(0);
+ 
+ll gcd ( ll a, ll b ){    return __gcd ( a, b );}
+ll lcm ( ll a, ll b ){    return a * ( b / gcd ( a, b ) );}
+ 
+const int N = 100005;
+int vis[N];
+int par[N];
+vector<int> graph[N];
+ 
+bool DFS( int vertex, int pare ){
+    vis[vertex] = 1;
+    par[vertex] = pare;
+
+    for( auto u : graph[vertex] ){
+        if( vis[u] == 0 ){
+            bool f = DFS(u, pare ^ 1);
+            if( !f ){
+                return false;
+            }
+        }else
+            {
+                if( par[vertex] == par[u] ){
+                    return false;
+                }
+            }
+    }
+    return true;
+}
+ 
+void solve(int cs) {
+    int n, m;
+    cin >> n >> m;
+ 
+    for( int i = 0; i < m; i++ ){
+        int a, b;
+        cin >> a >> b;
+
+        graph[a].PB(b);
+        graph[b].PB(a);
+    }
+    bool f = false;
+    for ( int i = 1; i <= n; i++ ){
+        if( vis[i] == 0 ){
+            f = DFS( i , 0);
+            if( !f ){
+                break;
+            }
+        }
+    }
+
+    if( !f )cout << "IMPOSSIBLE" << endl;
+    else{
+        for( int i = 1; i <= n; i++ ){
+            if( par[i] == 0 )
+            cout << 1 << " ";
+        else
+            cout << 2 << " ";
+        }cout << endl;
+    }
+
+}
+int main() {
+ 
+    int t = 1, cs = 1;
+    //cin >> t;
+ 
+    while(t--)
+    {
+        solve(cs++);
+    }
+    return 0;
+}
